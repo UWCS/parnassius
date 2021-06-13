@@ -1,6 +1,5 @@
 import confuse
 
-
 __all__ = ["CONFIG"]
 
 CONFIG = confuse.Configuration("parnassius", __name__)
