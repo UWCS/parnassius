@@ -1,2 +1,6 @@
 discord.py~=1.7.3
 confuse~=1.4.0
+sqlalchemy~=1.4.18
+alembic~=1.6.5
+isort~=5.8.0
+black~=21.6b0
