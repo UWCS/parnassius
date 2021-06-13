@@ -7,7 +7,7 @@ from pathlib import Path
 
 from config import CONFIG
 
-__all__ = ["setup_logging", "log_func"]
+__all__ = ["setup_logging", "get_representation", "log_func"]
 
 
 def setup_logging():
@@ -44,16 +44,17 @@ def setup_logging():
     handler.addFilter(filter_)
 
 
+def get_representation(arg):
+    if type(arg).__repr__ is not object.__repr__:
+        return repr(arg)
+    elif type(arg).__str__ is not object.__str__:
+        return str(arg)
+    else:
+        return repr(arg)
+
+
 def log_func(logger):
     def decorator(func):
-        def get_representation(arg):
-            if type(arg).__repr__ is not object.__repr__:
-                return repr(arg)
-            elif type(arg).__str__ is not object.__str__:
-                return str(arg)
-            else:
-                return repr(arg)
-
         def log_call(f, *args, **kwargs):
             args_repr = [get_representation(a) for a in args]
             kwargs_repr = [f"{k}={get_representation(v)}" for k, v in kwargs.items()]
