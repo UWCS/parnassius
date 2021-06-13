@@ -60,7 +60,9 @@ def log_func(logger):
             function_signature = f"{f.__name__}{signature(f)}"
             arguments = ", ".join(args_repr + kwargs_repr)
             logger.debug(f"Calling {function_signature}")
-            logger.debug(f"{f.__name__} is defined in {getfile(f)} on line {getsourcelines(f)[-1]}")
+            logger.debug(
+                f"{f.__name__} is defined in {getfile(f)} on line {getsourcelines(f)[-1]}"
+            )
             logger.debug(f"Arguments: {arguments}")
 
         def log_result(f, r):
@@ -84,4 +86,5 @@ def log_func(logger):
             return coro_wrapper
         else:
             return wrapper
+
     return decorator

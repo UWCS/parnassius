@@ -21,7 +21,6 @@ async def on_ready():
 def main():
     setup_logging()
     logger = logging.getLogger("parnassius")
-    logger.debug(f"{main.__name__} start")
     logger.info("Parnissius is starting")
     for extension in EXTENSIONS:
         try:
@@ -32,7 +31,6 @@ def main():
 
     logger.info("Connecting to Discord")
     bot.run(CONFIG["discord"]["token"].get(str))
-    logger.debug(f"{main.__name__} end")
 
 
 if __name__ == "__main__":
