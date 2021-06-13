@@ -28,6 +28,7 @@ def main():
             bot.load_extension(extension)
         except Exception as e:
             logger.exception(e)
+            raise e
 
     logger.info("Connecting to Discord")
     bot.run(CONFIG["discord"]["token"].get(str))
