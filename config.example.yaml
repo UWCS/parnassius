@@ -7,3 +7,4 @@ logging:
   location: path/to/log/location
   filename: parnassius.log
   suffix: %Y_%m_%d
+  level: INFO
