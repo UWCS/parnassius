@@ -6,24 +6,7 @@ from discord.ext.commands import Bot
 from config import CONFIG
 from utils.logging import setup_logging
 
-_handler = TimedRotatingFileHandler(
-    Path(
-        CONFIG["logging"]["location"].get(str),
-        CONFIG["logging"]["filename"].get(str),
-    ),
-    when="midnight",
-    interval=1,
-)
-_handler.suffix = CONFIG["logging"]["suffix"].get(str)
-_formatter = logging.Formatter(
-    fmt="{asctime}:{name}:{levelname}:{message}",
-    style="{",
-)
-_handler.setFormatter(_formatter)
-ROOT_LOGGER = logging.getLogger()
-ROOT_LOGGER.addHandler(_handler)
-ROOT_LOGGER.setLevel(logging.INFO)
-
+EXTENSIONS = ["cogs.commands.misc"]
 
 bot = Bot(CONFIG["discord"]["prefix"].get(str))
 
