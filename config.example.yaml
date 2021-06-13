@@ -1,0 +1,9 @@
+discord:
+  token: secret
+  prefix: ¦
+database:
+  connection: "postgresql://parnassius:parnassius@localhost/parnassius"
+logging:
+  location: path/to/log/location
+  filename: parnassius.log
+  suffix: %Y_%m_%d
