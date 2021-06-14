@@ -38,7 +38,7 @@ class ActionType(enum.Enum):
     UNBAN = enum.auto()
 
 
-def downgrade():
+def upgrade():
     op.create_table(
         "moderation_actions",
         Column("id", Integer, primary_key=True, autoincrement=True, nullable=False),
@@ -82,7 +82,7 @@ def downgrade():
     )
 
 
-def upgrade():
+def downgrade():
     op.drop_table("moderation_temporary_actions")
     op.drop_table("moderation_linked_actions")
     op.drop_table("moderation_actions")
