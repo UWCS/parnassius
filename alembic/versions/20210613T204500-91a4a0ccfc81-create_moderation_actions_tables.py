@@ -20,7 +20,7 @@ depends_on = None
 
 
 @enum.unique
-class ModerationAction(enum.Enum):
+class ActionType(enum.Enum):
     """Enum at the time the migration was written"""
 
     TEMPMUTE = enum.auto()
@@ -47,7 +47,7 @@ def downgrade():
         ),
         Column("user_id", Integer, ForeignKey("users.id"), nullable=False),
         Column("moderator_id", Integer, ForeignKey("users.id"), nullable=False),
-        Column("action", Enum(ModerationAction), nullable=False),
+        Column("action", Enum(ActionType), nullable=False),
         Column("reason", Text, nullable=True),
     )
 
@@ -87,4 +87,4 @@ def upgrade():
     op.drop_table("moderation_linked_actions")
     op.drop_table("moderation_actions")
     bind = op.get_bind()
-    Enum(ModerationAction).drop(bind)
+    Enum(ActionType).drop(bind)
