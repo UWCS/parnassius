@@ -4,7 +4,8 @@ Parnassius is a [Discord](https://discordapp.com/) bot for the [University of Wa
 It handles moderation actions on the server.
 
 Parnassius stems from [Apollo](https://github.com/UWCS/apollo), a general purpose bot.
-It was named after the *[Parnassius autocrator](https://en.wikipedia.org/wiki/Parnassius_autocrator)*, a species of butterfly in the *Parnassius* genus, known as Apollos.
+It was named after the *[Parnassius autocrator](https://en.wikipedia.org/wiki/Parnassius_autocrator)*, a species of butterfly in the *Parnassius* genus.
+Members of the *Parnassius* genus are known as Apollos, and autocrator refers to an individual who is unrestrained by superiors.
 
 ## Installation
 
