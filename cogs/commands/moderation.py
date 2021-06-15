@@ -5,7 +5,7 @@ from typing import Optional, Union
 
 import humanize
 from discord import Guild, HTTPException, Member, Role
-from discord.ext.commands import Bot, Cog, Context, Greedy, command
+from discord.ext.commands import Bot, Cog, Context, Greedy, command, group
 from discord.utils import get
 from sqlalchemy.exc import NoResultFound
 
@@ -19,7 +19,7 @@ from models import (
     User,
 )
 from utils.DateTimeConverter import DateTimeConverter
-from utils.Greedy1 import Greedy1Command
+from utils.Greedy1 import Greedy1Command, Greedy1Group
 from utils.logging import log_func
 from utils.utils import format_list_of_members
 
@@ -167,6 +167,25 @@ class Moderation(Cog):
 
         async def action(member):
             await member.add_roles(self.muted_role, reason=reason)
+            await self.add_moderation_history_item(
+                member, action_type, reason, moderator
+            )
+            logger.info(f"Applied {action_type} to {member}")
+
+        await self.moderation_command(
+            ctx, members, reason, action, action_type, moderator
+        )
+
+    @command(cls=Greedy1Command)
+    @log
+    async def unmute(
+        self, ctx: Context, members: Greedy[Member], *, reason: Optional[str]
+    ):
+        moderator = ctx.author
+        action_type = ActionType.UNMUTE
+
+        async def action(member):
+            await member.remove_roles(self.muted_role, reason=reason)
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator
             )
