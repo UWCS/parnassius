@@ -24,6 +24,46 @@ __all__ = (
 
 @enum.unique
 class ActionType(enum.Enum):
+    def __repr__(self):
+        return f"<{type(self).__name__}.{self.value}"
+
+    def __str__(self):
+        return f"{self.name}"
+
+    @property
+    def past_tense(self):
+        mapping = {
+            ActionType.TEMPMUTE: "tempmuted",
+            ActionType.MUTE: "muted",
+            ActionType.UNMUTE: "unmuted",
+            ActionType.WARN: "warned",
+            ActionType.REMOVE_WARN: "warning removed",
+            ActionType.AUTOMUTE: "automuted",
+            ActionType.REMOVE_AUTOMUTE: "automute removed",
+            ActionType.KICK: "kicked",
+            ActionType.TEMPBAN: "tempbanned",
+            ActionType.BAN: "banned",
+            ActionType.UNBAN: "unbanned",
+        }
+        return mapping[self]
+
+    @property
+    def emoji(self):
+        mapping = {
+            ActionType.TEMPMUTE: ":speaker:",
+            ActionType.MUTE: ":speaker:",
+            ActionType.UNMUTE: ":speaker:",
+            ActionType.WARN: ":warning:",
+            ActionType.REMOVE_WARN: ":warning:",
+            ActionType.AUTOMUTE: ":speaker:",
+            ActionType.REMOVE_AUTOMUTE: ":speaker:",
+            ActionType.KICK: ":door:",
+            ActionType.TEMPBAN: ":hammer:",
+            ActionType.BAN: ":hammer:",
+            ActionType.UNBAN: ":dove:",
+        }
+        return mapping[self]
+
     TEMPMUTE = enum.auto()
     MUTE = enum.auto()
     UNMUTE = enum.auto()
