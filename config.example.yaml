@@ -8,3 +8,14 @@ logging:
   filename: parnassius.log
   suffix: %Y_%m_%d
   level: INFO
+guild:
+  id: int
+  emoji:
+    yes: int
+    what: int
+    warn: int
+    no: int
+    neutral: int
+  roles:
+    exec: [int]
+    muted: int

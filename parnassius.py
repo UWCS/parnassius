@@ -6,7 +6,11 @@ from discord.ext.commands import Bot
 from config import CONFIG
 from utils.logging import setup_logging
 
-EXTENSIONS = ["cogs.commands.misc"]
+EXTENSIONS = [
+    "cogs.database",
+    "cogs.commands.misc",
+    "cogs.commands.moderation",
+]
 
 bot = Bot(CONFIG["discord"]["prefix"].get(str))
 

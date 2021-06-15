@@ -5,3 +5,4 @@ alembic~=1.6.5
 isort~=5.8.0
 black~=21.6b0
 dateparser~=1.0.0
+humanize~=3.8.0
