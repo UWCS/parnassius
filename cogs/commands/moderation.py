@@ -195,6 +195,29 @@ class Moderation(Cog):
             ctx, members, reason, action, action_type, moderator
         )
 
+    @group(cls=Greedy1Group)
+    @log
+    async def warn(self, ctx: Context, members: Greedy[Member], *, reason: Optional[str]):
+        moderator = ctx.author
+        action_type = ActionType.WARN
+
+        async def action(member):
+            channel = member.dm_channel or await member.create_dm()
+            with_reason = (
+                "with no reason given."
+                if reason is None
+                else f"with the following reason: \n> {reason}"
+            )
+            warning = (
+                f"{action_type.emoji} **WARNING** {action_type.emoji}\n"
+                f"You have been warned in UWCS {with_reason}"
+            )
+            await channel.send(warning)
+            await self.add_moderation_history_item(member, action_type, reason, moderator)
+            logger.info(f"Warned {member}")
+
+        await self.moderation_command(ctx, members, reason, action, action_type, moderator)
+
 
 def setup(bot: Bot):
     bot.add_cog(Moderation(bot))
