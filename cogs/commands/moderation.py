@@ -197,7 +197,9 @@ class Moderation(Cog):
 
     @group(cls=Greedy1Group)
     @log
-    async def warn(self, ctx: Context, members: Greedy[Member], *, reason: Optional[str]):
+    async def warn(
+        self, ctx: Context, members: Greedy[Member], *, reason: Optional[str]
+    ):
         moderator = ctx.author
         action_type = ActionType.WARN
 
@@ -213,10 +215,14 @@ class Moderation(Cog):
                 f"You have been warned in UWCS {with_reason}"
             )
             await channel.send(warning)
-            await self.add_moderation_history_item(member, action_type, reason, moderator)
+            await self.add_moderation_history_item(
+                member, action_type, reason, moderator
+            )
             logger.info(f"Warned {member}")
 
-        await self.moderation_command(ctx, members, reason, action, action_type, moderator)
+        await self.moderation_command(
+            ctx, members, reason, action, action_type, moderator
+        )
 
 
 def setup(bot: Bot):
