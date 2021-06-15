@@ -2,7 +2,7 @@ from sqlalchemy.orm import declarative_base
 
 from utils.logging import get_representation
 
-__all__ = ("Base", "model_repr")
+__all__ = ["Base", "model_repr"]
 
 Base = declarative_base()
 
