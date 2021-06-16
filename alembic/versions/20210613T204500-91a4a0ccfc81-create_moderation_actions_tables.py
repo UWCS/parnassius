@@ -74,7 +74,7 @@ def upgrade():
             nullable=False,
         ),
         Column(
-            "linked_action",
+            "linked_id",
             Integer,
             ForeignKey("moderation_actions.id"),
             nullable=False,

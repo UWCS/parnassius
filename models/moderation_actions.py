@@ -126,7 +126,7 @@ class ModerationLinkedAction(Base):
     id = Column(
         Integer, ForeignKey("moderation_actions.id"), primary_key=True, nullable=False
     )
-    linked_action = Column(Integer, ForeignKey("moderation_actions.id"), nullable=False)
+    linked_id = Column(Integer, ForeignKey("moderation_actions.id"), nullable=False)
 
     moderation_action = relationship(
         "ModerationAction",
@@ -135,6 +135,6 @@ class ModerationLinkedAction(Base):
     )
     linked_moderation_action = relationship(
         "ModerationAction",
-        foreign_keys=[linked_action],
-        primaryjoin="ModerationLinkedAction.linked_action == ModerationAction.id",
+        foreign_keys=[linked_id],
+        primaryjoin="ModerationLinkedAction.linked_id == ModerationAction.id",
     )
