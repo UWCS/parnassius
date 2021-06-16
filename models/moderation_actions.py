@@ -25,7 +25,7 @@ __all__ = (
 @enum.unique
 class ActionType(enum.Enum):
     def __repr__(self):
-        return f"<{type(self).__name__}.{self.value}"
+        return f"<{type(self).__name__}.{self.name}:{self.value}>"
 
     def __str__(self):
         return f"{self.name}"
