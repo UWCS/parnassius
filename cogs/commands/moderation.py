@@ -324,6 +324,31 @@ class Moderation(Cog):
             ctx, members, reason, action, action_type, moderator
         )
 
+    @command(cls=Greedy1Command)
+    @log
+    async def tempban(
+        self,
+        ctx: Context,
+        members: Greedy[Member],
+        until: DateTimeConverter,
+        delete_message_days: Optional[int] = 0,
+        *,
+        reason: Optional[str],
+    ):
+        moderator = ctx.author
+        action_type = ActionType.TEMPBAN
+
+        async def action(member):
+            await member.ban(reason=reason, delete_message_days=delete_message_days)
+            await self.add_moderation_history_item(
+                member, action_type, reason, ctx.author, until
+            )
+            logging.info(f"{action_type.past_tense.capitalize()} {member}")
+
+        await self.moderation_command(
+            ctx, members, reason, action, action_type, moderator, until
+        )
+
 
 def setup(bot: Bot):
     bot.add_cog(Moderation(bot))
