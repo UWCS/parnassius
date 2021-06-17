@@ -114,7 +114,7 @@ class ModerationAction(Base):
     linked_from = relationship(
         "ModerationLinkedAction",
         back_populates="linked_moderation_action",
-        primaryjoin="ModerationAction.id == ModerationLinkedAction.linked_id"
+        primaryjoin="ModerationAction.id == ModerationLinkedAction.linked_id",
     )
 
 
