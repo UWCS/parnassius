@@ -8,6 +8,7 @@ from discord import Guild, HTTPException, Member, Role
 from discord.ext.commands import Bot, Cog, Context, Greedy, command, group
 from discord.utils import get
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy.future import select
 
 from cogs.database import Database
 from config import CONFIG
@@ -195,7 +196,7 @@ class Moderation(Cog):
             ctx, members, reason, action, action_type, moderator
         )
 
-    @group(cls=Greedy1Group)
+    @group(cls=Greedy1Group, invoke_without_command=True)
     @log
     async def warn(
         self, ctx: Context, members: Greedy[Member], *, reason: Optional[str]
@@ -223,6 +224,55 @@ class Moderation(Cog):
         await self.moderation_command(
             ctx, members, reason, action, action_type, moderator
         )
+
+    @warn.command()
+    @log
+    async def show(self, ctx: Context, member: Member):
+        db = await Database.get(self.bot)
+        with db.session() as session:
+            user_id = db.get_user(member).scalars().one().id
+            query = (
+                select(ModerationLinkedAction.linked_id)
+                .join(ModerationLinkedAction.moderation_action)
+                .where(
+                    User.id == user_id,
+                    ModerationAction.action.in_(
+                        [ActionType.REMOVE_WARN, ActionType.REMOVE_AUTOWARN]
+                    ),
+                )
+            )
+            removed = session.execute(query).scalars().all()
+            logger.debug(removed)
+            query = (
+                select(ModerationAction)
+                .join(ModerationAction.user)
+                .where(
+                    User.id == user_id,
+                    ModerationAction.action == ActionType.WARN,
+                    ModerationAction.id.notin_(removed),
+                )
+            )
+            warnings = session.execute(query).scalars().all()
+            logger.debug(warnings)
+
+            if any(warnings):
+
+                def format_warning(warning):
+                    moderator = warning.moderator.username
+                    date = humanize.naturaldate(warning.timestamp)
+                    with_reason = (
+                        "with no reason given"
+                        if warning.reason is None
+                        else f"with the reason: {warning.reason}"
+                    )
+                    return f" • Warning {warning.id}, issued by {moderator} {date} {with_reason}"
+
+                message_parts = ["The following warnings have been issued:"] + [
+                    format_warning(w) for w in warnings
+                ]
+                await ctx.send("\n".join(message_parts))
+            else:
+                await ctx.send(f"No warnings have been issued for {member.mention}")
 
 
 def setup(bot: Bot):
