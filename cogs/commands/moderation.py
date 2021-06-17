@@ -301,6 +301,29 @@ class Moderation(Cog):
         else:
             await ctx.message.add_reaction("❌")
 
+    @command(cls=Greedy1Command)
+    @log
+    async def kick(
+        self,
+        ctx: Context,
+        members: Greedy[Member],
+        *,
+        reason: Optional[str],
+    ):
+        moderator = ctx.author
+        action_type = ActionType.KICK
+
+        async def action(member):
+            await member.kick(reason=reason)
+            await self.add_moderation_history_item(
+                member, action_type, reason, moderator
+            )
+            logger.info(f"Kicked {member}")
+
+        await self.moderation_command(
+            ctx, members, reason, action, action_type, moderator
+        )
+
 
 def setup(bot: Bot):
     bot.add_cog(Moderation(bot))
