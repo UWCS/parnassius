@@ -105,6 +105,18 @@ class ModerationAction(Base):
         primaryjoin="User.id == ModerationAction.moderator_id",
     )
 
+    linked_to = relationship(
+        "ModerationLinkedAction",
+        back_populates="moderation_action",
+        primaryjoin="ModerationAction.id == ModerationLinkedAction.id",
+    )
+
+    linked_from = relationship(
+        "ModerationLinkedAction",
+        back_populates="linked_moderation_action",
+        primaryjoin="ModerationAction.id == ModerationLinkedAction.linked_id"
+    )
+
 
 @model_repr
 class ModerationTemporaryAction(Base):
@@ -131,10 +143,12 @@ class ModerationLinkedAction(Base):
     moderation_action = relationship(
         "ModerationAction",
         foreign_keys=[id],
+        back_populates="linked_to",
         primaryjoin="ModerationLinkedAction.id == ModerationAction.id",
     )
     linked_moderation_action = relationship(
         "ModerationAction",
         foreign_keys=[linked_id],
+        back_populates="linked_from",
         primaryjoin="ModerationLinkedAction.linked_id == ModerationAction.id",
     )
