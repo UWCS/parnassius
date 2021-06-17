@@ -274,6 +274,33 @@ class Moderation(Cog):
             else:
                 await ctx.send(f"No warnings have been issued for {member.mention}")
 
+    @warn.command()
+    @log
+    async def remove(
+        self, ctx: Context, member: Member, warn_id: int, *, reason: Optional[str]
+    ):
+        db = await Database.get(self.bot)
+        user_id = db.get_user(member).scalars().one().id
+        query = select(ModerationAction).where(
+            ModerationAction.id == warn_id,
+            ModerationAction.action.in_([ActionType.WARN, ActionType.AUTOWARN]),
+            ModerationAction.user_id == user_id,
+        )
+        with db.session() as session:
+            result = session.execute(query).scalars().first()
+
+        if result is not None:
+            action_type = {
+                ActionType.WARN: ActionType.REMOVE_WARN,
+                ActionType.AUTOWARN: ActionType.REMOVE_AUTOWARN,
+            }[result.action]
+            await self.add_moderation_history_item(
+                member, action_type, reason, ctx.author, linked_action_id=result.id
+            )
+            await ctx.message.add_reaction("✅")
+        else:
+            await ctx.message.add_reaction("❌")
+
 
 def setup(bot: Bot):
     bot.add_cog(Moderation(bot))
