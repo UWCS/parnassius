@@ -235,7 +235,7 @@ class Moderation(Cog):
                 select(ModerationLinkedAction.linked_id)
                 .join(ModerationLinkedAction.moderation_action)
                 .where(
-                    User.id == user_id,
+                    ModerationAction.user_id == user_id,
                     ModerationAction.action.in_(
                         [ActionType.REMOVE_WARN, ActionType.REMOVE_AUTOWARN]
                     ),
