@@ -152,7 +152,7 @@ class Moderation(Cog):
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator, until=until
             )
-            logger.info(f"Applied {action_type} to {member}")
+            logging.info(f"{action_type.past_tense.capitalize()} {member}")
 
         await self.moderation_command(
             ctx, members, reason, action, action_type, moderator, until
@@ -171,7 +171,7 @@ class Moderation(Cog):
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator
             )
-            logger.info(f"Applied {action_type} to {member}")
+            logging.info(f"{action_type.past_tense.capitalize()} {member}")
 
         await self.moderation_command(
             ctx, members, reason, action, action_type, moderator
@@ -190,7 +190,7 @@ class Moderation(Cog):
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator
             )
-            logger.info(f"Applied {action_type} to {member}")
+            logging.info(f"{action_type.past_tense.capitalize()} {member}")
 
         await self.moderation_command(
             ctx, members, reason, action, action_type, moderator
@@ -219,7 +219,7 @@ class Moderation(Cog):
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator
             )
-            logger.info(f"Warned {member}")
+            logging.info(f"{action_type.past_tense.capitalize()} {member}")
 
         await self.moderation_command(
             ctx, members, reason, action, action_type, moderator
@@ -318,7 +318,7 @@ class Moderation(Cog):
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator
             )
-            logger.info(f"Kicked {member}")
+            logging.info(f"{action_type.past_tense.capitalize()} {member}")
 
         await self.moderation_command(
             ctx, members, reason, action, action_type, moderator
