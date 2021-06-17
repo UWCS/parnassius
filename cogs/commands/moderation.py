@@ -76,7 +76,7 @@ class Moderation(Cog):
             if linked_action_id is not None:
                 linked_action = ModerationLinkedAction(
                     id=action.id,
-                    linked_action=linked_action_id,
+                    linked_id=linked_action_id,
                 )
                 session.add(linked_action)
             session.commit()
