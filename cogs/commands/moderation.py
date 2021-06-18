@@ -149,6 +149,8 @@ class Moderation(Cog):
 
         async def action(member):
             await member.add_roles(self.muted_role, reason=reason)
+            # noinspection PyTypeChecker
+            # In this scenario, `until` is a `datetime` and not a `DateTimeConverter`.
             await self.add_moderation_history_item(
                 member, action_type, reason, moderator, until=until
             )
@@ -340,6 +342,7 @@ class Moderation(Cog):
 
         async def action(member):
             await member.ban(reason=reason, delete_message_days=delete_message_days)
+            # noinspection PyTypeChecker
             await self.add_moderation_history_item(
                 member, action_type, reason, ctx.author, until
             )
