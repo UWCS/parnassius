@@ -373,6 +373,21 @@ class Moderation(Cog):
             ctx, members, reason, action, action_type, moderator
         )
 
+    @command(cls=Greedy1Command)
+    @log
+    async def unban(self, ctx: Context, users: Greedy[User], *, reason: Optional[str]):
+        moderator = ctx.author
+        action_type = ActionType.UNBAN
+
+        async def action(user):
+            await self.guild.unban(user, reason=reason)
+            await self.add_moderation_history_item(user, action_type, reason, moderator)
+            logging.info(f"{action_type.past_tense.capitalize()} {user}")
+
+        await self.moderation_command(
+            ctx, users, reason, action, action_type, moderator
+        )
+
 
 def setup(bot: Bot):
     bot.add_cog(Moderation(bot))
