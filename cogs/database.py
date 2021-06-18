@@ -3,7 +3,8 @@ from __future__ import annotations
 import logging
 
 from discord.ext.commands import Bot, Cog
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine
+from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 
 from config import CONFIG
