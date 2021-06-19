@@ -8,8 +8,9 @@ Create Date: 2021-06-13 20:45:00.110033
 import enum
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy import Boolean, Column, DateTime, Enum, ForeignKey, Integer, Text
+
+from alembic import op
 
 # revision identifiers, used by Alembic.
 

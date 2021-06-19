@@ -10,6 +10,7 @@ EXTENSIONS = [
     "cogs.database",
     "cogs.commands.misc",
     "cogs.commands.moderation",
+    "cogs.commands.channel",
 ]
 
 bot = Bot(CONFIG["discord"]["prefix"].get(str))

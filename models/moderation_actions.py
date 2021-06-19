@@ -1,15 +1,7 @@
 import enum
 
 import sqlalchemy as sa
-from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    Enum,
-    ForeignKey,
-    Integer,
-    Text,
-)
+from sqlalchemy import Boolean, Column, DateTime, Enum, ForeignKey, Integer, Text
 from sqlalchemy.orm import relationship
 
 from models.models import Base, model_repr
