@@ -19,3 +19,4 @@ guild:
   roles:
     exec: [int]
     muted: int
+    lockdown_extra_roles: [int]

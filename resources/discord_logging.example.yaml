@@ -1,0 +1,147 @@
+discord_logging:
+  channels:
+    join_leave: int
+    message: int
+    member: int
+    voice: int
+
+  footer: "ID: {id}"
+
+  join:
+    head: "**Member joined**"
+    desc: |
+      {ping}
+      Created {age} ago. {warning}
+    colour: 0x62FFAE
+    channel: join_leave
+
+  leave:
+    head: "**Member left**"
+    desc: |
+      {ping} joined {age} ago.
+    colour: 0xFF62A1
+    channel: join_leave
+
+  kick:
+    head: "**User was kicked**"
+    desc: |
+      {user} was kicked by {source}.
+      **Reason:** {reason}
+    colour: 0xFF0000
+    channel: join_leave
+
+  ban:
+    head: "**User was banned**"
+    desc: |
+      {user} was banned by {source}.
+      **Reason:** {reason}
+    colour: 0xFF0000
+    channel: join_leave
+
+  unban:
+    head: "**User was unbanned**"
+    desc: |
+      {user} was unbanned by {source}.
+    colour: 0x00FF00
+    channel: join_leave
+
+  nickname:
+    head: "**Nickname changed**"
+    desc: |
+      **Before:** {before}
+      **+After:** {after}
+    colour: 0x6278FF
+    channel: member
+
+  role:
+    head: "**Role{plural} added**"
+    desc: |
+      {roles}
+    colour: 0x62FFF8
+    channel: member
+
+  derole:
+    head: "**Role{plural} removed**"
+    desc: |
+      {roles}
+    colour: 0xFBFF62
+    channel: member
+
+  pending:
+    head: "**Member is no longer pending**"
+    desc: |
+      {ping} cleared membership screening and welcome screen.
+    colour: 0x7289DA
+    channel: member
+
+  name:
+    head: "**Name changed**"
+    desc: |
+      **Before:** {before}
+      **+After:** {after}
+    colour: 0xFF62C8
+    channel: member
+
+  discriminator:
+    head: "**Discriminator changed**"
+    desc: |
+      **Before:** {before}
+      **+After:** {after}
+    colour: 0xFBFF62
+    channel: member
+
+  avatar:
+    head: "**Avatar changed**"
+    desc: |
+      {ping}
+    colour: 0x94FF62
+    channel: member
+
+  edit:
+    head: "**Message edited in {channel}**"
+    desc: |
+      **Before:** {before}
+      **+After:** {after}
+
+      :arrow_right: {link}
+    colour: 0xF1FF62
+    channel: message
+
+  edit_uncached:
+    head: "**Message edited in {channel}**"
+    desc: |
+      _This message was not cached; the original content is unknown._
+      **+After:** {after}
+
+      :arrow_right: {link}
+    colour: 0xF1FF62
+    channel: message
+
+  delete:
+    head: "**Message deleted in {channel}**"
+    desc: |
+      {message}
+    colour: 0xFFB562
+    channel: message
+
+  voice_join:
+    head: "**Joined voice channel**"
+    desc: |
+      {ping} joined {channel}.
+    colour: 0x62FF91
+    channel: voice
+
+  voice_leave:
+    head: "**Left voice channel**"
+    desc: |
+      {ping} left {channel}.
+    colour: 0xFF62AB
+    channel: voice
+
+  voice_move:
+    head: "**Changed voice channel**"
+    desc: |
+      **Before:** {before}
+      **+After:** {after}
+    colour: 0xFFE662
+    channel: voice

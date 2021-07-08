@@ -30,7 +30,7 @@ Parnassius is built and tested against Python 3.8.
 7. Create a database for Parnassius to run on.
 8. Prepare the database by running migrations with `alembic upgrade head`.
 9. On the [Discord developer portal](https://discord.com/developers/) ensure your application has the required intents.
-    - No intents are currently required.
+    - Parnassius requires the Server Members intent.
     
 ## Running 
 

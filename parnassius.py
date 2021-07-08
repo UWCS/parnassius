@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import logging
 
+from discord import Intents
 from discord.ext.commands import Bot
 
 from config import CONFIG
@@ -8,12 +9,16 @@ from utils.logging import setup_logging
 
 EXTENSIONS = [
     "cogs.database",
+    "cogs.logging",
     "cogs.commands.misc",
     "cogs.commands.moderation",
     "cogs.commands.channel",
 ]
 
-bot = Bot(CONFIG["discord"]["prefix"].get(str))
+intents = Intents.default()
+intents.members = True
+
+bot = Bot(CONFIG["discord"]["prefix"].get(str), intents=intents)
 
 
 @bot.event

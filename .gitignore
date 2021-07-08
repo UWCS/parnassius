@@ -160,7 +160,8 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/python,virtualenv,pycharm+iml
 
-config.yaml
+**/*.yaml
+!**/*.example.yaml
 alembic.ini
 tmp/
 # Directory for testing actions locally

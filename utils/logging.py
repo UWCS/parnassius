@@ -5,6 +5,8 @@ from inspect import getfile, getsourcelines, signature
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
+import confuse
+
 from config import CONFIG
 
 __all__ = ["setup_logging", "get_representation", "log_func"]
@@ -13,7 +15,7 @@ __all__ = ["setup_logging", "get_representation", "log_func"]
 def setup_logging():
     handler = TimedRotatingFileHandler(
         Path(
-            CONFIG["logging"]["location"].get(str),
+            CONFIG["logging"]["location"].get(confuse.Path(in_source_dir=True)),
             CONFIG["logging"]["filename"].get(str),
         ),
         when="midnight",
@@ -53,7 +55,7 @@ def get_representation(arg):
         return repr(arg)
 
 
-def log_func(logger):
+def log_func(logger: logging.Logger):
     def decorator(func):
         def log_call(f, *args, **kwargs):
             args_repr = [get_representation(a) for a in args]
