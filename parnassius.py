@@ -36,6 +36,8 @@ def main():
         try:
             logger.info(f"Loading extension {extension}")
             bot.load_extension(extension)
+        except SyntaxError:
+            raise
         except Exception as e:
             logger.exception(e)
             raise e
