@@ -13,11 +13,14 @@ __all__ = ["setup_logging", "get_representation", "log_func"]
 
 
 def setup_logging():
+    logging_path = Path(
+        CONFIG["logging"]["location"].get(confuse.Path(in_source_dir=True)),
+        CONFIG["logging"]["filename"].get(str),
+    )
+    # Create the directory if it does not already exist
+    logging_path.parent.mkdir(mode=775, parents=True, exist_ok=True)
     handler = TimedRotatingFileHandler(
-        Path(
-            CONFIG["logging"]["location"].get(confuse.Path(in_source_dir=True)),
-            CONFIG["logging"]["filename"].get(str),
-        ),
+        logging_path,
         when="midnight",
         interval=1,
     )
