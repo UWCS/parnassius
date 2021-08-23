@@ -412,9 +412,14 @@ class Logging(Cog):
             lambda e: e.target.id == channel.id,
         )
 
-        description = description.format(name=f"#{channel}")
+        user = entry.user
+        description = description.format(
+            ping=user.mention if user else "Unknown",
+            name=f"#{channel}",
+            category=channel.category,
+        )
         logging_channel = self.bot.get_channel(channel_id)
-        await self.log_event(logging_channel, entry.user, title, description, colour)
+        await self.log_event(logging_channel, user, title, description, colour)
 
 @log
 def setup(bot: Bot):
