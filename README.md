@@ -47,3 +47,4 @@ Run `parnassius.py`, either through `python3 parnassius.py` or by executing the 
 - Errors installing Psycopg are likely due to missing dependencies to compile the library.
   It requires the `Python.h` header file, typically provided by a package called `python3-dev`.
   It also requires `libpq-fe.h`, typically contained in `libpq-dev`.
+    - Alternately, it can be replaced with `psycopg-binary`.
