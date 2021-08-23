@@ -4,16 +4,21 @@ import logging
 from collections import Mapping
 from dataclasses import asdict, astuple, dataclass
 from datetime import datetime, timedelta
+from enum import Enum, auto, unique
 from typing import Optional, Union
 
 from confuse import Subview
 from discord import (
     AuditLogAction,
     AuditLogEntry,
+    CategoryChannel,
     Embed,
     Member,
     Message,
+    StageChannel,
+    TextChannel,
     User,
+    VoiceChannel,
     VoiceState,
 )
 from discord.abc import GuildChannel
@@ -115,6 +120,36 @@ class Logging(Cog):
                 break
             if predicate(entry):
                 return entry
+
+    @unique
+    class ChannelType(Enum):
+        TEXT = auto()
+        VOICE = auto()
+        CATEGORY = auto()
+        STAGE = auto()
+
+        @property
+        def str_mapping(self):
+            return {
+                self.TEXT: "text",
+                self.VOICE: "voice",
+                self.CATEGORY: "category",
+                self.STAGE: "stage",
+            }
+
+        def __str__(self):
+            return self.str_mapping[self]
+
+    @log
+    def get_channel_type(self, channel: GuildChannel):
+        if isinstance(channel, TextChannel):
+            return self.ChannelType.TEXT
+        elif isinstance(channel, VoiceChannel):
+            return self.ChannelType.VOICE
+        elif isinstance(channel, CategoryChannel):
+            return self.ChannelType.CATEGORY
+        elif isinstance(channel, StageChannel):
+            return self.ChannelType.STAGE
 
     @Cog.listener()
     @log
@@ -412,10 +447,18 @@ class Logging(Cog):
             lambda e: e.target.id == channel.id,
         )
 
-        user = entry.user
+        channel_type = self.get_channel_type(channel)
+        user: User = entry and entry.user
+        name = (
+            f"#{channel.name}"
+            if channel_type == self.ChannelType.TEXT
+            else channel.name
+        )
+        title = title.format(type=str(channel_type).capitalize())
         description = description.format(
             ping=user.mention if user else "Unknown",
-            name=f"#{channel}",
+            type=channel_type,
+            name=name,
             category=channel.category,
         )
         logging_channel = self.bot.get_channel(channel_id)
@@ -434,11 +477,19 @@ class Logging(Cog):
             lambda e: e.target == channel,
         )
 
-        user = entry.user
+        channel_type = self.get_channel_type(channel)
+        user: User = entry and entry.user
+        # This is a not a mention because mentions turn into #deleted-channel if the channel is deleted
+        name = (
+            f"#{channel.name}"
+            if channel_type == self.ChannelType.TEXT
+            else channel.name
+        )
+        title = title.format(type=str(channel_type).capitalize())
         description = description.format(
             ping=user.mention if user else "Unknown",
-            # This is a not a mention because mentions turn into #deleted-channel if the channel is deleted
-            name=f"#{channel}",
+            type=channel_type,
+            name=name,
             category=channel.category,
         )
         logging_channel = self.bot.get_channel(channel_id)
