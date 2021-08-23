@@ -16,6 +16,7 @@ EXTENSIONS = [
 ]
 
 intents = Intents.default()
+intents.guilds = True
 intents.members = True
 
 bot = Bot(CONFIG["discord"]["prefix"].get(str), intents=intents)
@@ -31,7 +32,7 @@ async def on_ready():
 def main():
     setup_logging()
     logger = logging.getLogger("parnassius")
-    logger.info("Parnissius is starting")
+    logger.info("Parnassius is starting")
     for extension in EXTENSIONS:
         try:
             logger.info(f"Loading extension {extension}")
