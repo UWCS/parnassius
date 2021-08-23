@@ -4,7 +4,7 @@ import logging
 from collections import Mapping
 from dataclasses import asdict, astuple, dataclass
 from datetime import datetime, timedelta
-from typing import Union
+from typing import Optional, Union
 
 from confuse import Subview
 from discord import (
@@ -39,7 +39,7 @@ class Logging(Cog):
     async def log_event(
         self,
         channel,
-        user: Union[User, Member],
+        user: Optional[Union[User, Member]],
         title,
         description,
         colour,
