@@ -27,7 +27,10 @@ Parnassius is built and tested against Python 3.8.
     `pip install -r requirements.txt`.
 5. Copy `config.example.yaml` to `config.yaml` and configure the fields.
 6. Copy `alembic.example.ini` to `alembic.ini` and configure the fields.
-7. Create a database for Parnassius to run on.
+7. Create a database for Parnassius to run on.  
+    On postgres:
+    - `CREATE USER parnassius WITH PASSWORD 'parnassius';`
+    - `CREATE DATABASE parnassius WITH ONWER = parnassius;`
 8. Prepare the database by running migrations with `alembic upgrade head`.
 9. On the [Discord developer portal](https://discord.com/developers/) ensure your application has the required intents.
     - Parnassius requires the Server Members intent.
