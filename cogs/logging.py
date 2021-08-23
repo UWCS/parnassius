@@ -97,6 +97,24 @@ class Logging(Cog):
     async def get_config_parts_from_name(self, name: str) -> Logging.ConfigSection:
         return await self.get_config_parts(self.config[name])
 
+    @staticmethod
+    @log
+    async def try_audit_entry(action, audit_logs, predicate) -> Optional[AuditLogEntry]:
+        before = datetime.utcnow()
+        # Padding to allow for slow execution
+        after = before - timedelta(seconds=5)
+        # oldest_first = false to work from newest entries first
+        # It's likely that the most recent entry of the audit logs will be the one the user is looking for
+        # so it makes sense to search in that order
+        logs = audit_logs(action=action, after=after, before=before, oldest_first=False)
+        async for entry in logs:
+            # guild.audit_logs was retrieving logs from outside the specified range.
+            # This checks that the range is enforced.
+            if entry.created_at < after:
+                break
+            if predicate(entry):
+                return entry
+
     @Cog.listener()
     @log
     async def on_member_join(self, member: Member):
@@ -117,21 +135,10 @@ class Logging(Cog):
     @Cog.listener()
     @log
     async def on_member_remove(self, member: Member):
-        before = datetime.utcnow()
-        after = before - timedelta(seconds=5)
-        logs = member.guild.audit_logs(
-            action=AuditLogAction.kick, after=after, before=before, oldest_first=False
+        logs = await self.try_audit_entry(
+            AuditLogAction.kick, member.guild.audit_logs, lambda e: e.target == member
         )
-        was_kicked = False
-        async for entry in logs:
-            # guild.audit_logs was retrieving logs from outside the specified range.
-            # This checks that the range is enforced.
-            if entry.created_at < after:
-                break
-            if entry.target == member:
-                was_kicked = True
-                logs = entry
-                break
+        was_kicked = logs is not None
 
         if was_kicked:
             await self.on_member_kick(member, logs)
