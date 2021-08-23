@@ -25,8 +25,10 @@ Parnassius is built and tested against Python 3.8.
       Expected output: `...\.venv\Scripts\python.exe`.
 4. Install dependencies.  
     `pip install -r requirements.txt`.
-5. Copy `config.example.yaml` to `config.yaml` and configure the fields.
-6. Copy `alembic.example.ini` to `alembic.ini` and configure the fields.
+5. Create the following configuration files (by copying them and configuring their fields) from the included examples:
+    - `config.example.yaml` to `config.yaml`.
+    - `alembic.example.ini` to `alembic.ini`.
+    - `resources/discord_logging.example.yaml` to `discord_logging.yaml`.
 7. Create a database for Parnassius to run on.  
     On postgres:
     - `CREATE USER parnassius WITH PASSWORD 'parnassius';`
