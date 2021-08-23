@@ -16,6 +16,7 @@ from discord import (
     User,
     VoiceState,
 )
+from discord.abc import GuildChannel
 from discord.ext.commands import Bot, Cog
 from humanize import precisedelta
 
@@ -361,6 +362,20 @@ class Logging(Cog):
         )
         await self.log_event(channel, member, title, description, colour)
 
+    @Cog.listener()
+    @log
+    async def on_guild_channel_delete(self, channel: GuildChannel):
+        channel_id, title, description, colour = await self.get_config_parts_from_name("channel_delete")
+
+        entry = await self.try_audit_entry(
+            AuditLogAction.channel_delete,
+            channel.guild.audit_logs,
+            lambda e: e.target.id == channel.id,
+        )
+
+        description = description.format(name=f"#{channel}")
+        logging_channel = self.bot.get_channel(channel_id)
+        await self.log_event(logging_channel, entry.user, title, description, colour)
 
 @log
 def setup(bot: Bot):
