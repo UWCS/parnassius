@@ -345,6 +345,7 @@ class Logging(Cog):
         )
 
         channel = self.bot.get_channel(channel_id)
+        title = title.format(channel=message.channel)
         description = description.format(
             ping=message.author.mention, message=message.content
         )
