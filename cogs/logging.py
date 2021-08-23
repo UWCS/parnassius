@@ -421,6 +421,30 @@ class Logging(Cog):
         logging_channel = self.bot.get_channel(channel_id)
         await self.log_event(logging_channel, user, title, description, colour)
 
+    @Cog.listener()
+    @log
+    async def on_guild_channel_create(self, channel: GuildChannel):
+        channel_id, title, description, colour = await self.get_config_parts_from_name(
+            "channel_create"
+        )
+
+        entry = await self.try_audit_entry(
+            AuditLogAction.channel_create,
+            channel.guild.audit_logs,
+            lambda e: e.target == channel,
+        )
+
+        user = entry.user
+        description = description.format(
+            ping=user.mention if user else "Unknown",
+            # This is a not a mention because mentions turn into #deleted-channel if the channel is deleted
+            name=f"#{channel}",
+            category=channel.category,
+        )
+        logging_channel = self.bot.get_channel(channel_id)
+        await self.log_event(logging_channel, user, title, description, colour)
+
+
 @log
 def setup(bot: Bot):
     bot.add_cog(Logging(bot))
