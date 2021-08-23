@@ -1,7 +1,9 @@
 import asyncio
 import logging
+import sys
 from functools import wraps
 from inspect import getfile, getsourcelines, signature
+from logging import StreamHandler
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
@@ -19,19 +21,29 @@ def setup_logging():
     )
     # Create the directory if it does not already exist
     logging_path.parent.mkdir(mode=775, parents=True, exist_ok=True)
-    handler = TimedRotatingFileHandler(
-        logging_path,
-        when="midnight",
-        interval=1,
-    )
-    handler.suffix = CONFIG["logging"]["suffix"].get(str)
     formatter = logging.Formatter(
         fmt="{asctime}:{name}:{levelname}:{message}",
         style="{",
     )
-    handler.setFormatter(formatter)
+    filter_ = logging.Filter("parnassius")
+
+    file_handler = TimedRotatingFileHandler(
+        logging_path,
+        when="midnight",
+        interval=1,
+    )
+    file_handler.suffix = CONFIG["logging"]["suffix"].get(str)
+    file_handler.setFormatter(formatter)
+    file_handler.addFilter(filter_)
+
+    stdout_handler = StreamHandler(sys.stdout)
+    stdout_handler.setFormatter(formatter)
+    stdout_handler.addFilter(filter_)
+
     root_logger = logging.getLogger()
-    root_logger.addHandler(handler)
+    root_logger.addHandler(file_handler)
+    root_logger.addHandler(stdout_handler)
+
     level = CONFIG["logging"]["level"].as_choice(
         {
             "NOTSET": logging.NOTSET,
@@ -45,8 +57,6 @@ def setup_logging():
         }
     )
     root_logger.setLevel(level)
-    filter_ = logging.Filter("parnassius")
-    handler.addFilter(filter_)
 
 
 def get_representation(arg):
