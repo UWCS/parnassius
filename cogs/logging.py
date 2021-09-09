@@ -141,7 +141,7 @@ class Logging(Cog):
             return self.str_mapping[self]
 
     @log
-    def get_channel_type(self, channel: GuildChannel):
+    def get_channel_type(self, channel: GuildChannel) -> Logging.ChannelType:
         if isinstance(channel, TextChannel):
             return self.ChannelType.TEXT
         elif isinstance(channel, VoiceChannel):
