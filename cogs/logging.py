@@ -155,7 +155,7 @@ class Logging(Cog):
     @log
     async def on_member_join(self, member: Member):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "join"
+            "member_join"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -186,7 +186,7 @@ class Logging(Cog):
     @log
     async def on_member_leave(self, member: Member):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "leave"
+            "member_leave"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -199,7 +199,7 @@ class Logging(Cog):
     @log
     async def on_member_kick(self, member: Member, logs: AuditLogEntry):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "kick"
+            "member_kick"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -214,7 +214,7 @@ class Logging(Cog):
     async def on_member_ban(self, guild, user: Union[User, Member]):
         # If the person was in the guild at the time of the ban, this will be passed a Member
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "ban"
+            "member_ban"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -228,7 +228,7 @@ class Logging(Cog):
     @log
     async def on_member_unban(self, guild, user: User):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "unban"
+            "user_unban"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -262,7 +262,7 @@ class Logging(Cog):
     @log
     async def on_member_role(self, before: Member, after: Member):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "role"
+            "role_add"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -274,7 +274,7 @@ class Logging(Cog):
     @log
     async def on_member_derole(self, before: Member, after: Member):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "derole"
+            "role_remove"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -286,7 +286,7 @@ class Logging(Cog):
     @log
     async def on_member_cease_pending(self, _: Member, after: Member):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "pending"
+            "member_pending"
         )
 
         description = description.format(ping=after.mention)
@@ -306,7 +306,7 @@ class Logging(Cog):
     @log
     async def on_user_name(self, before: User, after: User):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "name"
+            "member_username"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -316,7 +316,7 @@ class Logging(Cog):
     @log
     async def on_user_discriminator(self, before: User, after: User):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "discriminator"
+            "member_discriminator"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -328,7 +328,7 @@ class Logging(Cog):
     @log
     async def on_user_avatar(self, _: User, after: User):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "avatar"
+            "member_avatar"
         )
 
         channel = self.bot.get_channel(channel_id)
@@ -344,7 +344,7 @@ class Logging(Cog):
             return
 
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "edit"
+            "message_edit"
         )
         channel = self.bot.get_channel(channel_id)
 
@@ -362,7 +362,7 @@ class Logging(Cog):
             return
 
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "edit_uncached"
+            "message_edit_uncached"
         )
         channel = self.bot.get_channel(channel_id)
         message = await self.bot.get_channel(payload.channel_id).fetch_message(
@@ -376,7 +376,7 @@ class Logging(Cog):
     @log
     async def on_message_delete(self, message: Message):
         channel_id, title, description, colour = await self.get_config_parts_from_name(
-            "delete"
+            "message_delete"
         )
 
         channel = self.bot.get_channel(channel_id)
