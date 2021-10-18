@@ -6,7 +6,7 @@ from functools import cached_property
 from typing import Optional, Union
 
 import humanize
-from discord import Guild, HTTPException, Member, Role
+from discord import Guild, HTTPException, Member, Role, User as DiscordUser
 from discord.ext.commands import Bot, Cog, Context, Greedy, command, group
 from discord.utils import get
 from sqlalchemy.exc import NoResultFound
@@ -390,7 +390,7 @@ class Moderation(Cog):
 
     @command(cls=Greedy1Command)
     @log
-    async def unban(self, ctx: Context, users: Greedy[User], *, reason: Optional[str]):
+    async def unban(self, ctx: Context, users: Greedy[DiscordUser], *, reason: Optional[str]):
         moderator = ctx.author
         action_type = ActionType.UNBAN
 
