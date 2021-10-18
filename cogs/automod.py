@@ -7,12 +7,13 @@ from functools import cached_property
 from discord import Message
 from discord.ext.commands import Bot, Cog
 from sqlalchemy.future import select
+from sqlalchemy import func
 
 from cogs.commands.moderation import Moderation
 from cogs.database import Database
 from cogs.logging import Logging
 from config import CONFIG
-from models import ActionType, ModerationAction, ModerationLinkedAction
+from models import ActionType, ModerationAction, ModerationLinkedAction, User
 from utils.logging import log_func
 
 __all__ = ["Automod"]
@@ -43,7 +44,7 @@ class Automod(Cog):
     @Cog.listener()
     @log
     async def on_message(self, message: Message):
-        if (word := self.matches(message.content)) is None:
+        if message.author.bot or (word := self.matches(message.content)) is None:
             return
 
         await message.delete()
@@ -57,27 +58,27 @@ class Automod(Cog):
 
         db = await Database.get(self.bot)
         with db.session() as session:
-            user_id = db.get_user(message.author).scalars().one().id
+            user_id = db.get_or_create_user(message.author).id
             query = (
                 select(ModerationLinkedAction.linked_id)
                 .join(ModerationLinkedAction.moderation_action)
                 .where(
                     ModerationAction.user_id == user_id,
                     ModerationAction.action == ActionType.REMOVE_AUTOWARN,
-                ),
+                )
             )
             removed = session.execute(query).scalars().all()
             logger.debug(removed)
             query = (
-                select(ModerationAction)
+                select(func.count(ModerationAction.id))
                 .join(ModerationAction.user)
                 .where(
                     User.id == user_id,
-                    ModerationAction.action == ActionType.AUTOWARN,
+                    ModerationAction.action.in_([ActionType.AUTOWARN, ActionType.AUTOMUTE]),
                     ModerationAction.id.notin_(removed),
                 )
             )
-            number_warnings = session.execute(query).count()
+            number_warnings = session.execute(query).scalars().one()
             logger.debug(number_warnings)
 
         if number_warnings < 2:

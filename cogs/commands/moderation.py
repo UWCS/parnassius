@@ -63,8 +63,8 @@ class Moderation(Cog):
         linked_action_id: Optional[int] = None,
     ):
         db = await Database.get(self.bot)
-        user_id = db.get_user(user).scalars().one().id
-        moderator_id = db.get_user(moderator).scalars().one().id
+        user_id = db.get_or_create_user(user).id
+        moderator_id = db.get_or_create_user(moderator).id
         with db.session() as session:
             action = ModerationAction(
                 user_id=user_id,
@@ -245,29 +245,30 @@ class Moderation(Cog):
                 await ctx.send(f"{member} has no warnings")
                 return
             user_id = user.id
+            logger.debug(f"{user_id=}")
             query = (
                 select(ModerationLinkedAction.linked_id)
                 .join(ModerationLinkedAction.moderation_action)
                 .where(
                     ModerationAction.user_id == user_id,
                     ModerationAction.action.in_(
-                        [ActionType.REMOVE_WARN, ActionType.REMOVE_AUTOWARN]
+                        [ActionType.REMOVE_WARN, ActionType.REMOVE_AUTOWARN, ActionType.REMOVE_AUTOMUTE]
                     ),
                 )
             )
             removed = session.execute(query).scalars().all()
-            logger.debug(removed)
+            logger.debug(f"{removed=}")
             query = (
                 select(ModerationAction)
                 .join(ModerationAction.user)
                 .where(
                     User.id == user_id,
-                    ModerationAction.action == ActionType.WARN,
+                    ModerationAction.action.in_([ActionType.WARN, ActionType.AUTOWARN, ActionType.REMOVE_AUTOMUTE]),
                     ModerationAction.id.notin_(removed),
                 )
             )
             warnings = session.execute(query).scalars().all()
-            logger.debug(warnings)
+            logger.debug(f"{warnings=}")
 
             if any(warnings):
 
@@ -294,7 +295,11 @@ class Moderation(Cog):
         self, ctx: Context, member: Member, warn_id: int, *, reason: Optional[str]
     ):
         db = await Database.get(self.bot)
-        user_id = db.get_user(member).scalars().one().id
+        user = db.get_user(member).scalars().one()
+        if user is None:
+            await ctx.send(f"{member} has no warnings to remove.")
+            return
+        user_id = user.id
         query = select(ModerationAction).where(
             ModerationAction.id == warn_id,
             ModerationAction.action.in_([ActionType.WARN, ActionType.AUTOWARN]),
