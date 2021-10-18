@@ -8,7 +8,7 @@ discord_logging:
 
   footer: "ID: {id}"
 
-  join:
+  member_join:
     head: "**Member joined**"
     desc: |
       {ping}
@@ -16,14 +16,14 @@ discord_logging:
     colour: 0x62FFAE
     channel: join_leave
 
-  leave:
+  member_leave:
     head: "**Member left**"
     desc: |
       {ping} joined {age} ago.
     colour: 0xFF62A1
     channel: join_leave
 
-  kick:
+  member_kick:
     head: "**User was kicked**"
     desc: |
       {user} was kicked by {source}.
@@ -31,7 +31,7 @@ discord_logging:
     colour: 0xFF0000
     channel: join_leave
 
-  ban:
+  member_ban:
     head: "**User was banned**"
     desc: |
       {user} was banned by {source}.
@@ -39,7 +39,7 @@ discord_logging:
     colour: 0xFF0000
     channel: join_leave
 
-  unban:
+  user_unban:
     head: "**User was unbanned**"
     desc: |
       {user} was unbanned by {source}.
@@ -54,28 +54,28 @@ discord_logging:
     colour: 0x6278FF
     channel: member
 
-  role:
+  role_add:
     head: "**Role{plural} added**"
     desc: |
       {roles}
     colour: 0x62FFF8
     channel: member
 
-  derole:
+  role_remove:
     head: "**Role{plural} removed**"
     desc: |
       {roles}
     colour: 0xFBFF62
     channel: member
 
-  pending:
+  member_pending:
     head: "**Member is no longer pending**"
     desc: |
       {ping} cleared membership screening and welcome screen.
     colour: 0x7289DA
     channel: member
 
-  name:
+  member_username:
     head: "**Name changed**"
     desc: |
       **Before:** {before}
@@ -83,7 +83,7 @@ discord_logging:
     colour: 0xFF62C8
     channel: member
 
-  discriminator:
+  member_discriminator:
     head: "**Discriminator changed**"
     desc: |
       **Before:** {before}
@@ -91,14 +91,14 @@ discord_logging:
     colour: 0xFBFF62
     channel: member
 
-  avatar:
+  member_avatar:
     head: "**Avatar changed**"
     desc: |
       {ping}
     colour: 0x94FF62
     channel: member
 
-  edit:
+  message_edit:
     head: "**Message edited in {channel}**"
     desc: |
       **Before:** {before}
@@ -108,7 +108,7 @@ discord_logging:
     colour: 0xF1FF62
     channel: message
 
-  edit_uncached:
+  message_edit_uncached:
     head: "**Message edited in {channel}**"
     desc: |
       _This message was not cached; the original content is unknown._
@@ -118,7 +118,7 @@ discord_logging:
     colour: 0xF1FF62
     channel: message
 
-  delete:
+  message_delete:
     head: "**Message deleted in {channel}**"
     desc: |
       {message}
