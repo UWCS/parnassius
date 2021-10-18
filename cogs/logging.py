@@ -41,6 +41,12 @@ class Logging(Cog):
         self.config = CONFIG["discord_logging"]
         self.channels = self.config["channels"]
 
+    @classmethod
+    @log
+    async def get(cls, bot: Bot) -> Logging:
+        await bot.wait_until_ready()
+        return bot.get_cog(cls.__name__)
+
     @log
     async def log_event(
         self,

@@ -8,6 +8,7 @@ from config import CONFIG
 from utils.logging import setup_logging
 
 EXTENSIONS = [
+    "cogs.automod",
     "cogs.database",
     "cogs.logging",
     "cogs.commands.misc",

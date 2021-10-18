@@ -1,3 +1,5 @@
+# from __future__ import annotations
+
 import logging
 from datetime import datetime
 from functools import cached_property
@@ -35,6 +37,12 @@ class Moderation(Cog):
     @log
     def __init__(self, bot: Bot):
         self.bot = bot
+
+    @classmethod
+    @log
+    async def get(cls, bot: Bot) -> "Moderation":
+        await bot.wait_until_ready()
+        return bot.get_cog(cls.__name__)
 
     @cached_property
     def guild(self) -> Guild:
@@ -232,7 +240,11 @@ class Moderation(Cog):
     async def show(self, ctx: Context, member: Member):
         db = await Database.get(self.bot)
         with db.session() as session:
-            user_id = db.get_user(member).scalars().one().id
+            user = db.get_user(member).scalars().first()
+            if user is None:
+                await ctx.send(f"{member} has no warnings")
+                return
+            user_id = user.id
             query = (
                 select(ModerationLinkedAction.linked_id)
                 .join(ModerationLinkedAction.moderation_action)

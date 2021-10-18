@@ -4,6 +4,7 @@ discord_logging:
     message: int
     member: int
     voice: int
+    moderation: int
 
   footer: "ID: {id}"
 
