@@ -6,8 +6,8 @@ from functools import cached_property
 
 from discord import Message
 from discord.ext.commands import Bot, Cog
-from sqlalchemy.future import select
 from sqlalchemy import func
+from sqlalchemy.future import select
 
 from cogs.commands.moderation import Moderation
 from cogs.database import Database
@@ -50,9 +50,7 @@ class Automod(Cog):
         await message.delete()
         moderation = await Moderation.get(self.bot)
         logging_cog = await Logging.get(self.bot)
-        channel = self.bot.get_channel(
-            logging_cog.channels["moderation"].get(int)
-        )
+        channel = self.bot.get_channel(logging_cog.channels["moderation"].get(int))
         moderator = self.bot.user
         reason = f"Automod: {message.content}"
 
@@ -74,7 +72,9 @@ class Automod(Cog):
                 .join(ModerationAction.user)
                 .where(
                     User.id == user_id,
-                    ModerationAction.action.in_([ActionType.AUTOWARN, ActionType.AUTOMUTE]),
+                    ModerationAction.action.in_(
+                        [ActionType.AUTOWARN, ActionType.AUTOMUTE]
+                    ),
                     ModerationAction.id.notin_(removed),
                 )
             )
