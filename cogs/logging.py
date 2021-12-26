@@ -455,11 +455,7 @@ class Logging(Cog):
 
         channel_type = self.get_channel_type(channel)
         user: User = entry and entry.user
-        name = (
-            f"#{channel.name}"
-            if channel_type == self.ChannelType.TEXT
-            else channel.name
-        )
+        name = self.format_channel_name(channel, channel_type)
         title = title.format(type=str(channel_type).capitalize())
         description = description.format(
             ping=user.mention if user else "Unknown",
@@ -486,11 +482,7 @@ class Logging(Cog):
         channel_type = self.get_channel_type(channel)
         user: User = entry and entry.user
         # This is a not a mention because mentions turn into #deleted-channel if the channel is deleted
-        name = (
-            f"#{channel.name}"
-            if channel_type == self.ChannelType.TEXT
-            else channel.name
-        )
+        name = self.format_channel_name(channel, channel_type)
         title = title.format(type=str(channel_type).capitalize())
         description = description.format(
             ping=user.mention if user else "Unknown",
@@ -500,6 +492,54 @@ class Logging(Cog):
         )
         logging_channel = self.bot.get_channel(channel_id)
         await self.log_event(logging_channel, user, title, description, colour)
+
+    @Cog.listener()
+    @log
+    async def on_guild_channel_update(self, before: GuildChannel, after: GuildChannel):
+        channel_id, title, description, colour = await self.get_config_parts_from_name(
+            "channel_update"
+        )
+        entry = await self.try_audit_entry(
+            AuditLogAction.channel_update,
+            after.guild.audit_logs,
+            lambda e: e.target == before or e.target == after,
+        )
+        channel_type = self.get_channel_type(after)
+        name = self.format_channel_name(after, channel_type)
+        user: User = entry and entry.user
+        changes = ""
+
+        if before.category != after.category:
+            changes += f"Category ~~{before.category}~~ {after.category}\n"
+        if before.changed_roles != after.changed_roles:
+            changes += f"Roles with overridden permissions ~~{before.changed_roles}~~ {after.changed_roles}\n"
+        if before.name != after.name:
+            before_name = self.format_channel_name(before, channel_type)
+            changes += f"Name ~~{before_name}~~ {name}\n"
+        if before.overwrites != after.overwrites:
+            changes += f"Permission overwrites ~~{before.overwrites}~~ {after.overwrites}\n"
+        if before.permissions_synced != after.permissions_synced:
+            changes += f"Permissions synced ~~{before.permissions_synced}~~ {after.permissions_synced}\n"
+
+        title = title.format(type=str(channel_type).capitalize())
+        description = description.format(
+            ping=user.mention if user else "Unknown",
+            type=channel_type,
+            name=name,
+            category=after.category,
+            changes=changes,
+        )
+
+        logging_channel = self.bot.get_channel(channel_id)
+        await self.log_event(logging_channel, user, title, description, colour)
+
+    @log
+    def format_channel_name(self, channel: GuildChannel, channel_type: ChannelType) -> str:
+        return (
+            f"#{channel.name}"
+            if channel_type == self.ChannelType.TEXT
+            else channel.name
+        )
 
 
 @log

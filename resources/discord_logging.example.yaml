@@ -146,3 +146,26 @@ discord_logging:
       **+After:** {after}
     colour: 0xFFE662
     channel: voice
+
+  channel_create:
+    head: "**{type} Channel created**"
+    desc: |
+      {ping} created {type} channel {name} in {category}.
+    colour: 0x00FF00
+    channel: guild
+
+  channel_delete:
+    head: "**{type} Channel deleted**"
+    desc: |
+      {ping} deleted {type} channel {name} in {category}.
+    colour: 0xFF0000
+    channel: guild
+
+  channel_update:
+    head: "**{type} Channel edited**"
+    desc: |
+      {ping} edited {type} channel {name} in {category}.
+      **Changes:**
+      {changes}
+    colour: 0xFFFF00
+    channel: guild
