@@ -68,7 +68,7 @@ class Database(Cog):
             return db_user
 
         db_user = User(discord_id=user.id, username=str(user))
-        with sessionmaker(self.engine, expire_on_commit=False).begin() as session:
+        with self.session(expire_on_commit=False).begin() as session:
             session.add(db_user)
             session.commit()
         return db_user
