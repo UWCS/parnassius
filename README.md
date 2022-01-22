@@ -19,6 +19,8 @@ The second, `requirements-platform.lock`, contains a pinned list of all dependen
 
 If installing the top-level dependencies does not work, try installing the pinned dependencies.
 
+If you cannot install `psycopg2`, try replacing it in the requirements file with `psycopg2-binary`, which is pre-compiled.
+
 ### Environment Setup
 
 1. Create a new virtual environment.  
