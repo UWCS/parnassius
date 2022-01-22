@@ -3,6 +3,7 @@ aiosignal==1.2.0
 alembic==1.7.5
 appdirs==1.4.4
 async-timeout==3.0.1
+atlog==1.0.0
 attrs==21.4.0
 backports.zoneinfo==0.2.1
 black==21.6b0

@@ -7,3 +7,4 @@ black~=21.6b0
 dateparser~=1.1.0
 humanize~=3.13.1
 psycopg2~=2.9.3
+atlog~=1.0.0
