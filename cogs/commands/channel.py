@@ -78,29 +78,41 @@ class Channel(Cog):
     ):
         """Prevent messages from being sent in a given channel."""
         channel = channel or ctx.channel
-        roles = [channel.guild.default_role] + [get(channel.guild.roles, id=role) for role in self.lockdown_extra_roles]
+        roles = [channel.guild.default_role] + [
+            get(channel.guild.roles, id=role) for role in self.lockdown_extra_roles
+        ]
         for role in roles:
             overwrites = channel.overwrites_for(role)
             overwrites.update(send_messages=False)
-            await channel.set_permissions(role, overwrite=overwrites, reason=f"Lockdown command issued by {ctx.author}")
+            await channel.set_permissions(
+                role,
+                overwrite=overwrites,
+                reason=f"Lockdown command issued by {ctx.author}",
+            )
 
     @command()
     @log
     async def remove_lockdown(
-            self,
-            ctx: Context,
-            channel: Optional[TextChannel],
+        self,
+        ctx: Context,
+        channel: Optional[TextChannel],
     ):
         """Remove a previously imposed lockdown."""
         channel = channel or ctx.channel
-        roles = [channel.guild.default_role] + [get(channel.guild.roles, id=role) for role in self.lockdown_extra_roles]
+        roles = [channel.guild.default_role] + [
+            get(channel.guild.roles, id=role) for role in self.lockdown_extra_roles
+        ]
         for role in roles:
             overwrites = channel.overwrites_for(role)
             overwrites.update(send_messages=None)
             if overwrites.is_empty():
                 overwrites = None
 
-            await channel.set_permissions(role, overwrite=overwrites, reason=f"Lockdown command issued by {ctx.author}")
+            await channel.set_permissions(
+                role,
+                overwrite=overwrites,
+                reason=f"Lockdown command issued by {ctx.author}",
+            )
 
 
 def setup(bot: Bot):

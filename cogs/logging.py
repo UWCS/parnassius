@@ -517,7 +517,9 @@ class Logging(Cog):
             before_name = self.format_channel_name(before, channel_type)
             changes += f"Name ~~{before_name}~~ {name}\n"
         if before.overwrites != after.overwrites:
-            changes += f"Permission overwrites ~~{before.overwrites}~~ {after.overwrites}\n"
+            changes += (
+                f"Permission overwrites ~~{before.overwrites}~~ {after.overwrites}\n"
+            )
         if before.permissions_synced != after.permissions_synced:
             changes += f"Permissions synced ~~{before.permissions_synced}~~ {after.permissions_synced}\n"
 
@@ -534,7 +536,9 @@ class Logging(Cog):
         await self.log_event(logging_channel, user, title, description, colour)
 
     @log
-    def format_channel_name(self, channel: GuildChannel, channel_type: ChannelType) -> str:
+    def format_channel_name(
+        self, channel: GuildChannel, channel_type: ChannelType
+    ) -> str:
         return (
             f"#{channel.name}"
             if channel_type == self.ChannelType.TEXT
