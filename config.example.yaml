@@ -1,22 +1,22 @@
 discord:
-  token: secret
-  prefix: ¦
+    token: secret
+    prefix: ¦
 database:
-  connection: "postgresql://parnassius:parnassius@localhost/parnassius"
+    connection: "postgresql://parnassius:parnassius@localhost/parnassius"
 logging:
-  location: path/to/log/location
-  filename: parnassius.log
-  suffix: %Y_%m_%d
-  level: INFO
+    location: path/to/log/location
+    filename: parnassius.log
+    suffix: %Y_%m_%d
+    level: INFO
 guild:
-  id: int
-  emoji:
-    yes: int
-    what: int
-    warn: int
-    no: int
-    neutral: int
-  roles:
-    exec: [int]
-    muted: int
-    lockdown_extra_roles: [int]
+    id: int
+    emoji:
+        yes: int
+        what: int
+        warn: int
+        no: int
+        neutral: int
+    roles:
+        exec: [ int ]
+        muted: int
+        lockdown_extra_roles: [ int ]

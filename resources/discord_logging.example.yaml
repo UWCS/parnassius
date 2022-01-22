@@ -1,171 +1,171 @@
 discord_logging:
-  channels:
-    join_leave: int
-    message: int
-    member: int
-    voice: int
-    moderation: int
+    channels:
+        join_leave: int
+        message: int
+        member: int
+        voice: int
+        moderation: int
 
-  footer: "ID: {id}"
+    footer: "ID: {id}"
 
-  member_join:
-    head: "**Member joined**"
-    desc: |
-      {ping}
-      Created {age} ago. {warning}
-    colour: 0x62FFAE
-    channel: join_leave
+    member_join:
+        head: "**Member joined**"
+        desc: |
+            {ping}
+            Created {age} ago. {warning}
+        colour: 0x62FFAE
+        channel: join_leave
 
-  member_leave:
-    head: "**Member left**"
-    desc: |
-      {ping} joined {age} ago.
-    colour: 0xFF62A1
-    channel: join_leave
+    member_leave:
+        head: "**Member left**"
+        desc: |
+            {ping} joined {age} ago.
+        colour: 0xFF62A1
+        channel: join_leave
 
-  member_kick:
-    head: "**User was kicked**"
-    desc: |
-      {user} was kicked by {source}.
-      **Reason:** {reason}
-    colour: 0xFF0000
-    channel: join_leave
+    member_kick:
+        head: "**User was kicked**"
+        desc: |
+            {user} was kicked by {source}.
+            **Reason:** {reason}
+        colour: 0xFF0000
+        channel: join_leave
 
-  member_ban:
-    head: "**User was banned**"
-    desc: |
-      {user} was banned by {source}.
-      **Reason:** {reason}
-    colour: 0xFF0000
-    channel: join_leave
+    member_ban:
+        head: "**User was banned**"
+        desc: |
+            {user} was banned by {source}.
+            **Reason:** {reason}
+        colour: 0xFF0000
+        channel: join_leave
 
-  user_unban:
-    head: "**User was unbanned**"
-    desc: |
-      {user} was unbanned by {source}.
-    colour: 0x00FF00
-    channel: join_leave
+    user_unban:
+        head: "**User was unbanned**"
+        desc: |
+            {user} was unbanned by {source}.
+        colour: 0x00FF00
+        channel: join_leave
 
-  nickname:
-    head: "**Nickname changed**"
-    desc: |
-      **Before:** {before}
-      **+After:** {after}
-    colour: 0x6278FF
-    channel: member
+    nickname:
+        head: "**Nickname changed**"
+        desc: |
+            **Before:** {before}
+            **+After:** {after}
+        colour: 0x6278FF
+        channel: member
 
-  role_add:
-    head: "**Role{plural} added**"
-    desc: |
-      {roles}
-    colour: 0x62FFF8
-    channel: member
+    role_add:
+        head: "**Role{plural} added**"
+        desc: |
+            {roles}
+        colour: 0x62FFF8
+        channel: member
 
-  role_remove:
-    head: "**Role{plural} removed**"
-    desc: |
-      {roles}
-    colour: 0xFBFF62
-    channel: member
+    role_remove:
+        head: "**Role{plural} removed**"
+        desc: |
+            {roles}
+        colour: 0xFBFF62
+        channel: member
 
-  member_pending:
-    head: "**Member is no longer pending**"
-    desc: |
-      {ping} cleared membership screening and welcome screen.
-    colour: 0x7289DA
-    channel: member
+    member_pending:
+        head: "**Member is no longer pending**"
+        desc: |
+            {ping} cleared membership screening and welcome screen.
+        colour: 0x7289DA
+        channel: member
 
-  member_username:
-    head: "**Name changed**"
-    desc: |
-      **Before:** {before}
-      **+After:** {after}
-    colour: 0xFF62C8
-    channel: member
+    member_username:
+        head: "**Name changed**"
+        desc: |
+            **Before:** {before}
+            **+After:** {after}
+        colour: 0xFF62C8
+        channel: member
 
-  member_discriminator:
-    head: "**Discriminator changed**"
-    desc: |
-      **Before:** {before}
-      **+After:** {after}
-    colour: 0xFBFF62
-    channel: member
+    member_discriminator:
+        head: "**Discriminator changed**"
+        desc: |
+            **Before:** {before}
+            **+After:** {after}
+        colour: 0xFBFF62
+        channel: member
 
-  member_avatar:
-    head: "**Avatar changed**"
-    desc: |
-      {ping}
-    colour: 0x94FF62
-    channel: member
+    member_avatar:
+        head: "**Avatar changed**"
+        desc: |
+            {ping}
+        colour: 0x94FF62
+        channel: member
 
-  message_edit:
-    head: "**Message edited in {channel}**"
-    desc: |
-      **Before:** {before}
-      **+After:** {after}
+    message_edit:
+        head: "**Message edited in {channel}**"
+        desc: |
+            **Before:** {before}
+            **+After:** {after}
+            
+            :arrow_right: {link}
+        colour: 0xF1FF62
+        channel: message
 
-      :arrow_right: {link}
-    colour: 0xF1FF62
-    channel: message
+    message_edit_uncached:
+        head: "**Message edited in {channel}**"
+        desc: |
+            _This message was not cached; the original content is unknown._
+            **+After:** {after}
+            
+            :arrow_right: {link}
+        colour: 0xF1FF62
+        channel: message
 
-  message_edit_uncached:
-    head: "**Message edited in {channel}**"
-    desc: |
-      _This message was not cached; the original content is unknown._
-      **+After:** {after}
+    message_delete:
+        head: "**Message deleted in {channel}**"
+        desc: |
+            {message}
+        colour: 0xFFB562
+        channel: message
 
-      :arrow_right: {link}
-    colour: 0xF1FF62
-    channel: message
+    voice_join:
+        head: "**Joined voice channel**"
+        desc: |
+            {ping} joined {channel}.
+        colour: 0x62FF91
+        channel: voice
 
-  message_delete:
-    head: "**Message deleted in {channel}**"
-    desc: |
-      {message}
-    colour: 0xFFB562
-    channel: message
+    voice_leave:
+        head: "**Left voice channel**"
+        desc: |
+            {ping} left {channel}.
+        colour: 0xFF62AB
+        channel: voice
 
-  voice_join:
-    head: "**Joined voice channel**"
-    desc: |
-      {ping} joined {channel}.
-    colour: 0x62FF91
-    channel: voice
+    voice_move:
+        head: "**Changed voice channel**"
+        desc: |
+            **Before:** {before}
+            **+After:** {after}
+        colour: 0xFFE662
+        channel: voice
 
-  voice_leave:
-    head: "**Left voice channel**"
-    desc: |
-      {ping} left {channel}.
-    colour: 0xFF62AB
-    channel: voice
+    channel_create:
+        head: "**{type} Channel created**"
+        desc: |
+            {ping} created {type} channel {name} in {category}.
+        colour: 0x00FF00
+        channel: guild
 
-  voice_move:
-    head: "**Changed voice channel**"
-    desc: |
-      **Before:** {before}
-      **+After:** {after}
-    colour: 0xFFE662
-    channel: voice
+    channel_delete:
+        head: "**{type} Channel deleted**"
+        desc: |
+            {ping} deleted {type} channel {name} in {category}.
+        colour: 0xFF0000
+        channel: guild
 
-  channel_create:
-    head: "**{type} Channel created**"
-    desc: |
-      {ping} created {type} channel {name} in {category}.
-    colour: 0x00FF00
-    channel: guild
-
-  channel_delete:
-    head: "**{type} Channel deleted**"
-    desc: |
-      {ping} deleted {type} channel {name} in {category}.
-    colour: 0xFF0000
-    channel: guild
-
-  channel_update:
-    head: "**{type} Channel edited**"
-    desc: |
-      {ping} edited {type} channel {name} in {category}.
-      **Changes:**
-      {changes}
-    colour: 0xFFFF00
-    channel: guild
+    channel_update:
+        head: "**{type} Channel edited**"
+        desc: |
+            {ping} edited {type} channel {name} in {category}.
+            **Changes:**
+            {changes}
+        colour: 0xFFFF00
+        channel: guild
