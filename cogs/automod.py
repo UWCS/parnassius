@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import unicodedata
-from functools import cached_property
+from typing import List, Optional
 
 from discord import Message
 from discord.ext.commands import Bot, Cog
@@ -29,13 +29,13 @@ class Automod(Cog):
         self.bot = bot
         self._engine = None
 
-    @cached_property
+    @property
     @log
-    def forbidden_words(self):
+    def forbidden_words(self) -> List[str]:
         return CONFIG["forbidden_words"].as_str_seq()
 
     @log
-    def matches(self, content):
+    def matches(self, content) -> Optional[str]:
         content = content.casefold()
         content = unicodedata.normalize("NFKD", content)
         content = "".join(c for c in content if not unicodedata.combining(c))
