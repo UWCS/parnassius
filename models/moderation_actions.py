@@ -6,12 +6,12 @@ from sqlalchemy.orm import relationship
 
 from models.models import Base, model_repr
 
-__all__ = (
+__all__ = [
     "ActionType",
     "ModerationAction",
     "ModerationLinkedAction",
     "ModerationTemporaryAction",
-)
+]
 
 
 @enum.unique
