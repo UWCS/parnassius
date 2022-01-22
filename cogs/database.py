@@ -10,6 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from config import CONFIG
 from models import User
 from utils.logging import log_func
+from utils.typing import Identifiable
 
 __all__ = ["Database"]
 
@@ -52,7 +53,7 @@ class Database(Cog):
         return bot.get_cog(cls.__name__)
 
     @log
-    def get_user(self, ctx: {id: int}) -> User:
+    def get_user(self, ctx: Identifiable) -> User:
         with self.session() as session:
             return session.execute(select(User).where(User.discord_id == ctx.id))
 
