@@ -36,7 +36,7 @@ class Database(Cog):
     @engine.deleter
     @log
     def engine(self):
-        logging.info("Disposing database engine")
+        logger.info("Disposing database engine")
         self._engine.dispose()
         self._engine = None
 
