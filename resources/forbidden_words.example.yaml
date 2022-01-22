@@ -1,0 +1,6 @@
+forbidden_words:
+  - foo
+  - bar
+  - baz
+  - quz
+  - qux

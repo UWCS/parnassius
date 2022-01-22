@@ -43,8 +43,8 @@ class Database(Cog):
 
     @property
     @log
-    def session(self):
-        return sessionmaker(self.engine)
+    def session(self, expire_on_commit: bool = True):
+        return sessionmaker(self.engine, expire_on_commit=expire_on_commit)
 
     @classmethod
     @log
@@ -54,13 +54,24 @@ class Database(Cog):
 
     @log
     def get_user(self, ctx: Identifiable) -> User:
-        with self.session() as session:
+        with self.session.begin() as session:
             return session.execute(select(User).where(User.discord_id == ctx.id))
 
     @log
     def get_user_from_id(self, id_: int) -> User:
-        with self.session() as session:
+        with self.session.begin() as session:
             return session.execute(select(User).where(User.discord_id == id_))
+
+    @log
+    def get_or_create_user(self, user):
+        if (db_user := self.get_user(user).scalars().first()) is not None:
+            return db_user
+
+        db_user = User(discord_id=user.id, username=str(user))
+        with sessionmaker(self.engine, expire_on_commit=False).begin() as session:
+            session.add(db_user)
+            session.commit()
+        return db_user
 
 
 @log
