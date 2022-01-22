@@ -11,6 +11,14 @@ Members of the *Parnassius* genus are known as Apollos, and autocrator refers to
 
 Parnassius is built and tested against Python 3.8.
 
+### Dependencies
+
+Two type of dependency files are included with this project. The first, `requirements.txt`, only includes top-level dependencies.
+
+The second, `requirements-platform.lock`, contains a pinned list of all dependencies specific to a platform.
+
+If installing the top-level dependencies does not work, try installing the pinned dependencies.
+
 ### Environment Setup
 
 1. Create a new virtual environment.  
