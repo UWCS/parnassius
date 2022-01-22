@@ -43,7 +43,7 @@ class Database(Cog):
 
     @property
     @log
-    def session(self, expire_on_commit: bool = True):
+    def session(self, *, expire_on_commit: bool = True):
         return sessionmaker(self.engine, expire_on_commit=expire_on_commit)
 
     @classmethod
