@@ -26,6 +26,7 @@ class ActionType(enum.Enum):
     def past_tense(self):
         mapping = {
             ActionType.TEMPMUTE: "tempmuted",
+            ActionType.TIMEOUT: "timed out",
             ActionType.MUTE: "muted",
             ActionType.UNMUTE: "unmuted",
             ActionType.WARN: "warned",
@@ -44,6 +45,7 @@ class ActionType(enum.Enum):
     def emoji(self):
         mapping = {
             ActionType.TEMPMUTE: ":speaker:",
+            ActionType.TIMEOUT: ":speaker:",
             ActionType.MUTE: ":speaker:",
             ActionType.UNMUTE: ":speaker:",
             ActionType.WARN: ":warning:",
@@ -59,6 +61,7 @@ class ActionType(enum.Enum):
         return mapping[self]
 
     TEMPMUTE = enum.auto()
+    TIMEOUT = enum.auto()
     MUTE = enum.auto()
     UNMUTE = enum.auto()
     WARN = enum.auto()

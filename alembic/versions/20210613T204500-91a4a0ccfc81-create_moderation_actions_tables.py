@@ -25,6 +25,7 @@ class ActionType(enum.Enum):
     """Enum at the time the migration was written"""
 
     TEMPMUTE = enum.auto()
+    TIMEOUT = enum.auto()
     MUTE = enum.auto()
     UNMUTE = enum.auto()
     WARN = enum.auto()

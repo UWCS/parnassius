@@ -169,6 +169,33 @@ class Moderation(Cog):
             ctx, members, reason, action, action_type, moderator, until
         )
 
+    # Commented out because discord.py 1.7.3 does not support timing out members
+    # @command(cls=Greedy1Command)
+    # @log
+    # async def timeout(
+    #     self,
+    #     ctx: Context,
+    #     members: Greedy[Member],
+    #     until: DateTimeConverter,
+    #     *,
+    #     reason: Optional[str]
+    # ):
+    #     moderator = ctx.author
+    #     action_type = ActionType.TIMEOUT
+    #
+    #     async def action(member):
+    #         await member.timeout(until=until, reason=reason)
+    #         # noinspection PyTypeChecker
+    #         # In this scenario, `until` is a `datetime` and not a `DateTimeConverter`.
+    #         await self.add_moderation_history_item(
+    #             member, action_type, reason, moderator, until=until
+    #         )
+    #         logging.info(f"{action_type.past_tense.capitalize()} {member}")
+    #
+    #     await self.moderation_command(
+    #         ctx, members, reason, action, action_type, moderator, until
+    #     )
+
     @command(cls=Greedy1Command)
     @log
     async def mute(
