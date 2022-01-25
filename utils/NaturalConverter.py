@@ -10,8 +10,8 @@ class NaturalConverter(Converter):
     async def convert(self, ctx, argument):
         try:
             i = int(argument)
-            if i < self.lower_bound:
-                raise BadArgument
-            return i
         except ValueError:
             raise BadArgument
+        if i < self.lower_bound:
+            raise BadArgument
+        return i
