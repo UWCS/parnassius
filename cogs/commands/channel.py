@@ -46,7 +46,7 @@ class Channel(Cog):
                     f"{ctx.author} purged the most recent {len(deleted)} message{'s' if len(deleted) != 1 else ''} from {channel}"
                 )
             except HTTPException as e:
-                logger.info(
+                logger.error(
                     f"{ctx.author} failed to purge the most recent {message} message{'s' if message != 1 else ''} from {channel}"
                 )
                 logger.exception(e)
@@ -64,7 +64,7 @@ class Channel(Cog):
                     f"(since {message.jump_url}, created at {message.created_at})"
                 )
             except HTTPException as e:
-                logger.info(
+                logger.error(
                     f"{ctx.author} failed to purge messages since {message.jump_url} from {channel}"
                 )
                 logger.exception(e)
